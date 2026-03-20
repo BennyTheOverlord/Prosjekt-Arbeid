@@ -1,0 +1,16 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#navigasjonsbar {
+    display: flex;
+    padding: 1rem;
+    border: 1px solid black;
+    justify-content: center;
+
+}
+
+.sett-rad {
+    display: flex;
+}

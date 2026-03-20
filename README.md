@@ -19,3 +19,11 @@ En til liste:
 2. defg
 
 [ordetmantrykkerpåstårher](selvelenken)
+
+![bildetekst](stientilbildet)
+
+```js
+kode skrives her!
+
+let a = 3
+```

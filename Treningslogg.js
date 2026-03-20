@@ -22,3 +22,6 @@ app.get('/api/fjell_info', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server kjører på http://localhost:${PORT}`);
 });
+
+//Gjør at nettleseren henter filene direkte fra Public mappen når brukeren gir en request
+app.use(express.static("Public"));
