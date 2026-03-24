@@ -13,9 +13,9 @@ const cors = require('cors');
 app.use(cors());
 
 // Eksempel på en rute som henter alle fjell, beskrivelse, høydene og bilde deres
-app.get('/api/fjell_info', (req, res) => {
-    const rows = db.prepare('SELECT fjellnavn, hoyde, beskrivelse, foto FROM fjell').all();
-    res.json(rows);
+app.get('/api/Okt-registrering', (req, res) => {
+    const øvelseData = db.prepare('SELECT ØvelseID, Navn, Beskrivelse FROM Øvelse').all();
+    res.json(øvelseData);
 });
 
 // Åpner en viss port på serveren, og starter serveren
