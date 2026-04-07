@@ -1,8 +1,47 @@
-const minForm = document.getElementById("minForm")
+const minForm = document.getElementById("minForm");
 const leggTilØvelse = document.getElementById("leggTilØvelse");
+
+
+
 
 minForm.addEventListener("submit", async function(event) {
     event.preventDefault();
+
+const alleØvelser = document.querySelectorAll(".øvelses-Blokk");
+
+    const registrertData = {
+    øvelser: []
+}
+    
+    alleØvelser.forEach(blokk => {
+    const valgtØvelse = blokk.querySelector(".øvelse-Valg").value;
+    const alleSett = blokk.querySelectorAll(".sett-Rad");
+
+    const settArray = [];
+
+        alleSett.forEach(rad => {
+    const vekt = rad.querySelector(".vekt-Input").value;
+    const reps = rad.querySelector(".reps-Input").value;
+
+    if (vekt !== "" && reps !== "") {
+        settArray.push({
+            vekt: Number(vekt),
+            reps: Number(reps)
+        })
+    }
+});
+
+   registrertData.øvelser.push({
+        navn: valgtØvelse,
+        sett: settArray
+
+    })
+});
+
+console.log(registrertData);
+
+const response = await fetch("/api/registrer_okt")
+
 })
 
 leggTilØvelse.addEventListener("click", () => {
@@ -21,38 +60,45 @@ async function hentData() {
     let overskrift = document.createElement("h2");
     let settContainer = document.createElement("div"); 
     let brukerØvelseValg = document.createElement("select");
+
+    øvelsesBlokk.classList.add("øvelses-Blokk");
+    brukerØvelseValg.classList.add("øvelse-Valg");
    
     for (const Navn of øvelseData) {
-    const option = document.createElement("option");
-    option.value = Navn.Navn;
-    option.textContent = Navn.Navn;
-    brukerØvelseValg.appendChild(option);
-  }
-        øvelsesBlokk.append(overskrift, settContainer, brukerØvelseValg);
-        minForm.appendChild(øvelsesBlokk)
+        const option = document.createElement("option");
+        option.value = Navn.Navn;
+        option.textContent = Navn.Navn;
+        brukerØvelseValg.appendChild(option);
+    }
+    øvelsesBlokk.append(overskrift, settContainer, brukerØvelseValg);
+    minForm.appendChild(øvelsesBlokk)
  
- brukerØvelseValg.addEventListener("change", () => {
-    settContainer.innerHTML = "";
-    
-    overskrift.textContent = brukerØvelseValg.value
-
-    for (let i = 1; i <= 3; i = i + 1) {
-        let div = document.createElement("div");
-        let settnr = document.createElement("span");
-        let vekt = document.createElement("input");
-        let reps = document.createElement("input");
+    brukerØvelseValg.addEventListener("change", () => {
+        settContainer.innerHTML = "";
         
-        settnr.textContent = i;
-        vekt.type = "number";
-        vekt.placeholder = "Kg";
-        reps.type = "number";
-        reps.placeholder = "Reps";
+        overskrift.textContent = brukerØvelseValg.value
 
-        div.append(settnr, vekt, reps); // Hva er forskjellen på variabel.append(); og variabel.appendchild(); ?
-        settContainer.appendChild(div);
+        for (let i = 1; i <= 3; i = i + 1) {
+            let div = document.createElement("div");
+            let settnr = document.createElement("span");
+            let vekt = document.createElement("input");
+            let reps = document.createElement("input");
+            
+            settnr.textContent = i;
+            vekt.type = "number";
+            vekt.placeholder = "Kg";
+            reps.type = "number";
+            reps.placeholder = "Reps";
+
+            div.classList.add("sett-Rad");
+            vekt.classList.add("vekt-Input");
+            reps.classList.add("reps-Input");
+
+            div.append(settnr, vekt, reps); // Hva er forskjellen på variabel.append(); og variabel.appendchild(); ?
+            settContainer.appendChild(div);
         }
         
-     });
+    });
     }
 }
 

@@ -25,3 +25,8 @@ app.listen(PORT, () => {
 
 //Gjør at nettleseren henter filene direkte fra Public mappen når brukeren gir en request
 app.use(express.static("Public"));
+
+
+// app.post("/api/registrer_okt", express.json(), (request, response) => {
+//     const {}
+// })
