@@ -30,17 +30,27 @@ const alleØvelser = document.querySelectorAll(".øvelses-Blokk");
         })
     }
 });
-
-   registrertData.øvelser.push({
+    if (settArray.length > 0) {
+        registrertData.øvelser.push({
         navn: valgtØvelse,
         sett: settArray
 
     })
+    }
+   
 });
 
 console.log(registrertData);
 
-const response = await fetch("/api/registrer_okt")
+const response = await fetch("/api/registrer_okt", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(registrertData)
+});
+
+// Husk å skrive ferdig her senere, og ordne det på backend, slik at det kan sendes til databasen
 
 })
 

@@ -27,6 +27,30 @@ app.listen(PORT, () => {
 app.use(express.static("Public"));
 
 
-// app.post("/api/registrer_okt", express.json(), (request, response) => {
-//     const {}
-// })
+app.post("/api/registrer_okt", express.json(), (request, response) => {
+    const {øvelser} = request.body;
+
+    console.log(øvelser)
+
+    if (!øvelser) {
+        return response.status(400).json({ feil: "Ugyldige data" });
+    }
+    const okt = db.prepare("INSERT INTO Treningsøkt (BrukerID, Start, Slutt) VALUES (?,?,?)").run(1,null,null);
+    const oktID = okt.lastInsertRowid;
+    øvelser.forEach(øvelse => {
+        const navn = øvelse.navn;
+        const settArray = øvelse.sett;
+        const ovelse = db.prepare("SELECT * FROM Øvelse WHERE Navn = ?").get(navn)
+        const ovelsePerOkt = db.prepare("INSERT INTO Øvelse_I_Økt (ØktID, ØvelseID) VALUES (?,?)").run(oktID, ovelse.ØvelseID)
+        const ovelseIØktID = ovelsePerOkt.lastInsertRowid
+        settArray.forEach(sett => {
+            const vekt = sett.vekt;
+            const reps = sett.reps;
+
+            const settInfo =  db.prepare("INSERT INTO Sett (Reps, Vekt, Varighet, ØvelseIØktID) Values (?,?,?,?)").run(reps,vekt,null, ovelseIØktID);
+        })
+    });
+
+//Jobb videre med å validere requuesten og gi beskjed til brukeren om det gikk gjennom eller ikke
+
+});
