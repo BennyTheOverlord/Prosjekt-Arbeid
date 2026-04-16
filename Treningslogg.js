@@ -12,7 +12,7 @@ const db = new Database('Treningslog.db');
 const cors = require('cors');
 app.use(cors());
 
-// Eksempel på en rute som henter alle fjell, beskrivelse, høydene og bilde deres
+// API-rute som henter valgt data, og lagrer dem i variabelen "øvelseData" som blir gjort om til json format
 app.get('/api/Okt-registrering', (req, res) => {
     const øvelseData = db.prepare('SELECT ØvelseID, Navn, Beskrivelse FROM Øvelse').all();
     res.json(øvelseData);
@@ -32,25 +32,31 @@ app.post("/api/registrer_okt", express.json(), (request, response) => {
 
     console.log(øvelser)
 
-    if (!øvelser) {
+    if (!øvelser || !Array.isArray(øvelser) || øvelser.length === 0) {
         return response.status(400).json({ feil: "Ugyldige data" });
     }
     const okt = db.prepare("INSERT INTO Treningsøkt (BrukerID, Start, Slutt) VALUES (?,?,?)").run(1,null,null);
     const oktID = okt.lastInsertRowid;
-    øvelser.forEach(øvelse => {
+   for (const øvelse of øvelser) {
         const navn = øvelse.navn;
         const settArray = øvelse.sett;
         const ovelse = db.prepare("SELECT * FROM Øvelse WHERE Navn = ?").get(navn)
+         if (!ovelse) { // Sjekker om ovelse eksisterer, i tilfelle den ikke gjør det
+            return response.status(400).json({ feil: `Fant ikke øvelse: ${navn}`}); // Hvis ovelse ikke eksisterer stopper koden, og den gir status 400 "Fant ikke øvelse: "navn på øvelse"
+            }
         const ovelsePerOkt = db.prepare("INSERT INTO Øvelse_I_Økt (ØktID, ØvelseID) VALUES (?,?)").run(oktID, ovelse.ØvelseID)
         const ovelseIØktID = ovelsePerOkt.lastInsertRowid
-        settArray.forEach(sett => {
+
+        for (const sett of settArray) {
             const vekt = sett.vekt;
             const reps = sett.reps;
 
             const settInfo =  db.prepare("INSERT INTO Sett (Reps, Vekt, Varighet, ØvelseIØktID) Values (?,?,?,?)").run(reps,vekt,null, ovelseIØktID);
-        })
-    });
-
-//Jobb videre med å validere requuesten og gi beskjed til brukeren om det gikk gjennom eller ikke
-
+        }
+    }
+         response.json({ alert: "Økten er registrert!"})
 });
+
+   
+
+//Jobb videre med å validere requesten og gi beskjed til brukeren om det gikk gjennom eller ikke
