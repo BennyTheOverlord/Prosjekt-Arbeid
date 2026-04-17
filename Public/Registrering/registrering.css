@@ -11,6 +11,38 @@ html, body {
 
 }
 
-.sett-rad {
-    
+#submit {
+    background-color: lightgreen;
+    border: 1px solid lightseagreen;
+    width: 5rem;
+    height: 2rem;
+}
+
+select {
+    /* background-color: black; */
+    color: black;
+    border: 1px solid black;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+select:hover {
+    border-color: lightblue
+}
+
+.sett-Rad {
+    font-weight: bold;
+    margin: 10px;
+    padding: 10px;
+}
+
+.reps-Input {
+    margin: 10px;
+    padding: 10px;
+}
+
+.vekt-Input {
+    margin: 10px;
+    padding: 10px;
 }

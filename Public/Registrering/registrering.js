@@ -71,6 +71,8 @@ async function hentData() { // Definerer en async funksjon som henter dataen fra
     let settContainer = document.createElement("div"); 
     let brukerØvelseValg = document.createElement("select");
 
+    settContainer.classList.add("sett-Container");
+
     øvelsesBlokk.classList.add("øvelses-Blokk");
     brukerØvelseValg.classList.add("øvelse-Valg");
    
@@ -111,6 +113,8 @@ async function hentData() { // Definerer en async funksjon som henter dataen fra
     });
     }
 }
+
+// Note to self: Trenger ikke å kommentere alle linjene. Husk å jobbe med dokumentasjon i både koden og readme filen. Husk css også
 
  
 
