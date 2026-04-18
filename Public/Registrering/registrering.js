@@ -72,7 +72,6 @@ async function hentData() { // Definerer en async funksjon som henter dataen fra
     let brukerØvelseValg = document.createElement("select");
 
     settContainer.classList.add("sett-Container");
-
     øvelsesBlokk.classList.add("øvelses-Blokk");
     brukerØvelseValg.classList.add("øvelse-Valg");
    
